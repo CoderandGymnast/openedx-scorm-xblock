@@ -188,6 +188,8 @@ class ScormXBlock(XBlock):
             recursive_delete(self.extract_folder_base_path)
         with zipfile.ZipFile(package_file, "r") as scorm_zipfile:
             for zipinfo in scorm_zipfile.infolist():
+                if zipinfo.filename[-1] == '/':
+                    continue
                 default_storage.save(
                     os.path.join(self.extract_folder_path, zipinfo.filename),
                     scorm_zipfile.open(zipinfo.filename),
